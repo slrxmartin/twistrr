@@ -1,6 +1,6 @@
 # Twister Control — Részletes Kezelői Kézikönyv
 
-Ez a program a fonalsodró gép teljes vezérlőszoftvere érintőképernyőre (`768×1200` álló kijelzőre) és normál egér + billentyűzet használatra tervezve.  
+Ez a program a fonalsodró gép teljes vezérlőszoftvere érintőképernyőre (`1024×600`-as álló (`600×1024`) kijelzőre) és normál egér + billentyűzet használatra tervezve.  
 A PC egyetlen RS-485 soros kábelen keresztül (`COM3`, `19200 bps`, `8N1`) egyszerre 4 eszközt irányít:
 1. **`0x01` — Kinco FM léptetőmotor-hajtás** (a fonálvezető szán fel-le mozgatása)
 2. **`0x02` — I/O relémodul** (fizikai Start/Stop gombok olvasása + jelzőlámpák és főkontaktor kapcsolása)
