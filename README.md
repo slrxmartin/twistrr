@@ -12,11 +12,11 @@ A PC egyetlen RS-485 soros kábelen keresztül (`COM3`, `19200 bps`, `8N1`) egys
 ## 1. Alapvető használat (Indítás, mentés, számok átírása)
 
 ### Indítás és ablakkijelzés
-- **Program indítása:** Kattints duplán a `dist\TwisterControl.exe` fájlra. Semmit sem kell telepíteni.
+- **Program indítása:** Magától elindul a gép indulásakor, esetleg frissülhet. Semmit sem kell telepíteni.
 - **Teljes képernyő ↔ Ablak váltás:** Alapértelmezetten teljes képernyőn indul. Az **`ESC`** billentyűvel (vagy a jobb felső sarokban lévő `ESC` / `FULL` gombbal) bármikor válthatsz ablakos és teljes képernyős mód között *(kivéve ha épp egy szövegdobozba írsz — akkor az első `ESC` kilép a dobozból, a második `ESC` vált ablakmódot)*.
 - **Automatikus mentés és napló:**
   - Minden módosítás automatikusan elmentődik a program melletti **`twister_config.ini`** fájlba. Ha újraindítod a programot, minden beállításod pontosan úgy marad, ahogy hagytad.
-  - Ha van a régi C# programból megmaradt `config.txt` fájlod az `.exe` mellett, az első indításkor a program automatikusan átolvassa belőle a régi adatokat.
+  - Ha van a régi C# programból megmaradt `config.txt` fájlod az `.exe` mellett, az első indításkor a program automatikusan átolvassa belőle a régi adatokat. *`(amúgy én erre nem alapoznék, szóval jobb ha ki van törölve a régi config.txt és utána megnyitva első indításnál, mert meglehet hogy minden alkalommal újratölti a régi beállításokat onnan, illetve ennek a programnak a kiindulási alapja még egy régesrégi verzió az eredeti c# programról c++-ra teljesen előről újraírva szólva tényleg ne.)`*
   - Minden működési lépés és hiba bekerül a **`debug.txt`** fájlba.
 
 ### Hogyan kell értékeket (számokat és kódokat) módosítani?
@@ -270,10 +270,6 @@ Csak tájékoztató áttekintő doboz: egyetlen pillantással látszanak benne a
   - Közben menet közben is felváltva ellenőrzi a fizikai Stop gombot és a két Delta VFD hibakódját (`0x2100`), hogy hiba esetén azonnal leálljon.
   - A főoldalon megjelenő hátralévő idő (`MM:SS`) futás közben a mért valós léptetési időkből simított átlaggal számolódik, ezért nem ugrál össze-vissza.
 
----
 
-## 6. Fejlesztői fordítás
 
-Ha módosítasz a C++ forráskódon (`src\` mappa), a `build-exe.bat` lefuttatásával:
-1. Lefordítja és futtatja mind a 8 automatikus egységtesztet (`build\ProtocolTests.exe`).
-2. Elkészíti az új, önálló futtatható programot a `dist\TwisterControl.exe` fájlba.
+## Ha nem működik valami vagy nem érted, szólsz!
