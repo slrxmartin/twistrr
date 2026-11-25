@@ -31,6 +31,8 @@ Nincs felugró képernyő-billentyűzet — közvetlenül a rendes billentyűzet
    - Mindkét esetben a program azonnal elmenti az új értéket a fájlba, újraszámolja a függő értékeket és kilép a szerkesztésből.
 4. **Mégse (`ESC`):** Ha írás közben **`ESC`**-et nyomsz, elveti a félbehagyott gépelést, és visszaáll a korábbi érték.
 
+![Érték átírása közvetlenül billentyűzetről](docs/images/szerkesztes.png)
+
 ---
 
 ## 2. A felső állapotsor (minden oldalon ugyanott látható)
@@ -70,6 +72,8 @@ A program folyamatosan figyeli a gép **`0x02`** I/O modulján lévő fizikai St
 ---
 
 ### 1. oldal: `VEZÉRLÉS` *(Főoldal napi gyártáshoz)*
+
+![VEZÉRLÉS főoldal](docs/images/vezerles.png)
 
 Ez az oldal szándékosan letisztult, nagy feliratokkal és kevés gombbal, hogy üzemi környezetben is tévedésmentesen lehessen kezelni.
 
@@ -111,6 +115,8 @@ A három fonalparaméter közül kettőt te adsz meg, a harmadikat a gép átté
 ---
 
 ### 2. oldal: `MODBUS` *(Eszközök, címek és kézi parancsteszt)*
+
+![MODBUS beállítások és egyedi küldés](docs/images/modbus.png)
 
 Itt van összegyűjtve a gép összes Modbus-kódja **HEX** (hexadecimális) formában. Bármelyik mezőre kattintva átírhatod (pl. `4000` vagy `0x4000` is működik, `Enter` vagy mellékattintás menti).
 
@@ -167,6 +173,8 @@ Szervizhez, próbaküldéshez:
 
 ### 3. oldal: `DIAGNOSZTIKA` *(Műszerfal, tesztek és élő napló)*
 
+![DIAGNOSZTIKA műszerfal és napló](docs/images/diagnosztika.png)
+
 #### Felső állapotsorok
 * **1. sor:** `TX` (elküldött parancsok száma) | `RX` (sikeresen vett válaszok) | `Hiba` (sérült CRC / hibás válaszok) | `Újrapr` (automatikusan újrapróbált üzenetek) | `I/O` (aktuális bemenet bájt hexában) | `0x3200` (léptető utolsó státusza: `Célba ért`, `Mozog`, `HIBA!`).
 * **2. sor:** Mindkét Delta VFD élő kijelzése: **`Orsó VFD: XX.XX Hz (állapot, err=...)`** és **`Henger VFD: XX.XX Hz (állapot, err=...)`**.  
@@ -195,6 +203,8 @@ A 8 optocsatolt bemenet állapota valós időben (zöld = bemenet aktív/zárt, 
 ---
 
 ### 4. oldal: `BEÁLLÍTÁSOK` *(Minden paraméter és működési opció)*
+
+![BEÁLLÍTÁSOK oldal](docs/images/beallitasok.png)
 
 #### Felső kártya: `Soros Port & RS-485 Ütközésvédelem`
 * **`Portok friss.` gomb:** Újra beolvassa a Windows-ban jelenleg csatlakoztatott COM portokat.
@@ -254,6 +264,8 @@ A 8 optocsatolt bemenet állapota valós időben (zöld = bemenet aktív/zárt, 
        - **`Teljesen nulláig (0)`:** `0 → 4400 → 0 → 4400 ...` folyamatos teljes oda-vissza ciklus.
        - **`Középpontig (2200)`:** Első menetben felmegy `0 → 4400`-ig, utána visszafelé **csak a felső határ feléig (`2200`-ig)** megy vissza, és innentől **`2200 ↔ 4400`** között dolgozik oda-vissza folyamatosan!
 
+![Ciklus végén algombos visszafutás választó](docs/images/beallitasok_visszafele.png)
+
 ---
 
 #### Alsó kártya: `Képletek & Aktív Busz Paraméterek`
@@ -266,7 +278,7 @@ Csak tájékoztató áttekintő doboz: egyetlen pillantással látszanak benne a
 - **Ütközésmentes egyetlen soros busz-kezelő:**
   A régi rendszerekben a külön háttérben futó gomb-lekérdezés könnyen beleütközhetett egy éppen elküldött motorparancsba az RS-485 kábelen. Itt egyetlen szál végzi sorban az összes kommunikációt: minden küldés előtt kivárja az `RS-485 SZÜNET` (`15 ms`) csendet, kiüríti a régi zajt, majd minden írásnál (`0x05`, `0x06`, `0x10`) és olvasásnál (`0x02`, `0x03`) megvárja a CRC-16-tal ellenőrzött választ. Ha egy csomag megsérül, az `ÚJRAPRÓBÁLKOZÁS` azonnal újraküldi.
 - **Valódi eszköz-állapotgép + biztonsági tartalék:**
-  - Nem vak várakozási időkkel lép tovább a program: tápbekapcsoláskor a Delta `0x2100/0x2101` készenlétet figyeli, Startnál a `0x2103` kimenő frekvencia elérését, meneteléskor a Kinco `0x3200` (célba érés + hibafigyelés) és `0x3700` (valós pozíció) adatait, leállításkor pedig a frekiváltók `0 Hz`-es lefékezését.
+  - Nem vak `sleep`-ekkel vár a program: tápbekapcsoláskor a Delta `0x2100/0x2101` készenlétet figyeli, Startnál a `0x2103` kimenő frekvencia elérését, meneteléskor a Kinco `0x3200` (célba érés + hibafigyelés) és `0x3700` (valós pozíció) adatait, leállításkor pedig a frekiváltók `0 Hz`-es lefékezését.
   - Közben menet közben is felváltva ellenőrzi a fizikai Stop gombot és a két Delta VFD hibakódját (`0x2100`), hogy hiba esetén azonnal leálljon.
   - A főoldalon megjelenő hátralévő idő (`MM:SS`) futás közben a mért valós léptetési időkből simított átlaggal számolódik, ezért nem ugrál össze-vissza.
 
