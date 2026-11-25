@@ -3,7 +3,7 @@
 Ez a program a fonalsodró gép teljes vezérlőszoftvere érintőképernyőre (`768×1200` álló kijelzőre) és normál egér + billentyűzet használatra tervezve.  
 A PC egyetlen RS-485 soros kábelen keresztül (`COM3`, `19200 bps`, `8N1`) egyszerre 4 eszközt irányít:
 1. **`0x01` — Kinco FM léptetőmotor-hajtás** (a fonálvezető szán fel-le mozgatása)
-2. **`0x02` — Waveshare 8 csatornás I/O relémodul** (fizikai Start/Stop gombok olvasása + jelzőlámpák és főkontaktor kapcsolása)
+2. **`0x02` — I/O relémodul** (fizikai Start/Stop gombok olvasása + jelzőlámpák és főkontaktor kapcsolása)
 3. **`0x03` — Delta VFD frekvenciaváltó** (alsó gyűjtőorsó villanymotor)
 4. **`0x04` — Delta VFD frekvenciaváltó** (felső fonaladagoló henger villanymotor)
 
