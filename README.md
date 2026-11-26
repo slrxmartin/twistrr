@@ -241,8 +241,8 @@ A kényelmes, nagy gombos érintéshez minden paraméter 3 átlátható aloldalo
 
 * **`Gyári alapértékek` gomb** *(jobb felső narancs gomb)*: Visszaállítja az összes gépbeállítást a biztos alapokra *(a `MODBUS` oldal címeit békén hagyja)*.
 * **`Léptetőmotor & JOG Beállítások` (`4×2` nagy csempe):**
-  - **`LÉPTETŐ LÉPÉS`** (`400 offset`): Ennyit lép a motor minden ciklusban a cél felé. Nagyobbnak kell lennie, mint a `FEL-LÉPÉS (+)`!
-  - **`FEL-LÉPÉS (+)`** (`200 +`): Ennyit mozdul vissza minden lépés elején. A nettó haladás = `LÉPTETŐ LÉPÉS - FEL-LÉPÉS (+)` (`200`, így `4400 / 200 + 1 = 23` lépés).
+  - **`LÉPÉS FEL`** (`400 poz`): Ennyivel lép felfelé a szán minden ciklusban a felső határ (`4400`) felé *(a háttérben negatív irányú elmozdulás)*. Mindig nagyobbnak kell lennie, mint a `LÉPÉS LE`!
+  - **`LÉPÉS LE`** (`200 poz`): Ennyit enged vissza lefelé (`0` irányába) minden ciklus elején. A nettó felfelé haladás ciklusonként = `LÉPÉS FEL - LÉPÉS LE` (`400 - 200 = 200`, így `4400 / 200 + 1 = 23` lépés).
   - **`FELSŐ HATÁR`** (`4400 poz`): Meddig menjen fel a szán (`0`-tól `4400`-ig).
   - **`JOG ORSÓ`** (`300 RPM`): Piros + Zöld hosszú nyomva tartásakor az alsó gyűjtőorsó cél fordulatszáma *(futás közben ehhez számolja arányosan a felső hengert is)*.
   - **`LÉPÉS SEBESSÉG`** (`0 = alap`): Munkasebesség (`0x4A00`; `0` = hajtás alapértéke).
