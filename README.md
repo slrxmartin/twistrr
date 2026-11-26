@@ -51,7 +51,7 @@ Nincs felugró képernyő-billentyűzet — közvetlenül a rendes billentyűzet
 | :--- | :--- |
 | **`TWISTER`** | A program neve. |
 | **`COM3`** *(port gomb)* | Zöld, ha a soros port sikeresen csatlakozva van; piros, ha nem érhető el. Rákattintva rögtön a **`BEÁLLÍTÁSOK → Port & RS-485`** aloldalra ugrik, ahol portot választhatsz. |
-| **`ZÖLD = KÜLDÉS`** *(sárga jelző)* | Csak akkor jelenik meg, ha **futó program közben** módosítottál valamit a képernyőn. A fizikai **Zöld gomb** megnyomásáig várakozik a változtatások biztonságos kiküldésével. |
+| **`ZÖLD = KÜLDÉS`** *(sárga jelző)* | Csak akkor jelenik meg, ha **futó program közben** módosítottál valamit a képernyőn. A fizikai **Zöld gomb** megnyomásáig várakozik a változtatások biztonságos kiküldésével. *(Ha épp nincs futó módosítás, de van új GitHub verzió, itt jelenik meg a kattintható **`ÚJ v...`** gomb.)* |
 | **Állapotjelző doboz** | A gép pillanatnyi állapota:<br>• **`OFFLINE`** (piros): nincs nyitott soros port<br>• **`KÉSZENLÉT`** (sárga): áll a gép, várja az indítást<br>• **`INDÍTÁS...`** (sárga): relék ellenőrzése/kapcsolása, frekiváltók bebootolása és felpörgése<br>• **`ÜZEMEL`** (zöld) / **`JÓVÁHAGYÁS?`** (sárga) / **`JÓVÁHAGYVA`** (zöld) / **`VÉGÉN LEÁLL`** (rózsaszín): forognak a motorok és megy a léptetőmotor-ciklus; **`Jóváhagyással`** módban a program vége előtti beállított időnél (`VILLOGÁS ELŐTTE`, alap `5 perc`) **`JÓVÁHAGYÁS?`** látható és villog a zöld lámpa<br>• **`JOG MÓD`** (kék): Piros + Zöld hosszú nyomva tartásával aktív lassú kézi/ellenőrző járatás<br>• **`LEÁLLÍTÁS`** (piros): motorok leállítása és léptető Home-ba küldése<br>• **`HIBA`** (piros): hiba történt (pl. port vagy meghajtó hiba — részletek a `DIAGNOSZTIKA` naplóban) |
 | **`ESC` / `FULL` gomb** | Vált teljes képernyős és ablakos mód között (ugyanazt csinálja, mint az `ESC` billentyű). |
 | **4 fő oldalválasztó fül** | **`VEZÉRLÉS`** • **`MODBUS`** • **`DIAGNOSZTIKA`** • **`BEÁLLÍTÁSOK`** — rákattintva azonnal oldalt vált (ha épp írtál egy mezőbe, előtte elmenti). |
@@ -110,18 +110,18 @@ Ez az oldal szándékosan letisztult, nagy feliratokkal és kevés gombbal, hogy
 #### A) Számítási mód váltó (legfelső két gomb)
 A három fonalparaméter közül kettőt te adsz meg, a harmadikat a gép áttételeiből automatikusan számolja a program:
 * **`Sodrat + Orsó → Henger`** *(aktív = piros)*:
-  - Te írod be az **`ALSÓ GYŰJTŐORSÓ`** fordulatszámát és a **`SODRATSZÁM`**-ot.
-  - A gép kiszámolja a **`FELSŐ ADAGOLÓ HENGER (SZÁMOLT)`** értékét:
-    $$\text{Henger RPM} = \text{Orsó RPM} / \text{Sodratszám}$$ *(egész osztás, pl. `2500 / 120 = 20 RPM`)*
+  - Te írod be az **`ALSÓ GYŰJTŐORSÓ`** fordulatszámát (`RPM`) és a **`SODRATSZÁM`**-ot.
+  - A gép kiszámolja a **`FELSŐ ADAGOLÓ HENGER (SZÁMOLT)`** értékét (`yarn/meter`):
+    $$\text{Henger (yarn/meter)} = \text{Orsó RPM} / \text{Sodratszám}$$ *(egész osztás, pl. `2500 / 120 = 20 yarn/meter`)*
 * **`Orsó + Henger → Sodrat`**:
-  - Te írod be az **`ALSÓ GYŰJTŐORSÓ`** és a **`FELSŐ ADAGOLÓ HENGER`** fordulatszámát.
+  - Te írod be az **`ALSÓ GYŰJTŐORSÓ`** (`RPM`) és a **`FELSŐ ADAGOLÓ HENGER`** (`yarn/meter`) értékét.
   - A gép kiszámolja a **`SODRAT (SZÁMOLT)`** értékét:
-    $$\text{Sodratszám} = \text{Orsó RPM} / \text{Henger RPM}$$
+    $$\text{Sodratszám} = \text{Orsó RPM} / \text{Henger (yarn/meter)}$$
 
 #### B) A 3 nagy paraméterdoboz
 * **`ALSÓ GYŰJTŐORSÓ` (`RPM`):** Mindig szerkeszthető. Ebből számolja a frekiváltó parancsot is: `((Orsó / 118) × 100)` (`0,01 Hz`-es egységben, pl. `2500 → 2100 = 21,00 Hz`).
 * **`SODRATSZÁM` (`sodrat`)** *(vagy `SODRAT (SZÁMOLT)`)*: Ha a bal oldali mód aktív, rózsaszín keretes és kattintva szerkeszthető; ha a jobb oldali mód aktív, világoskék keretes (csak kijelző, a program számolja).
-* **`FELSŐ ADAGOLÓ HENGER` (`RPM`)** *(vagy `(SZÁMOLT)`)*: Jobb oldali módban szerkeszthető; bal oldali módban automatikusan számolt (`Henger × 0,96 × 100`, pl. `20 → 1920 = 19,20 Hz`).
+* **`FELSŐ ADAGOLÓ HENGER` (`yarn/meter`)** *(vagy `(SZÁMOLT)`)*: Jobb oldali módban szerkeszthető; bal oldali módban automatikusan számolt (`Henger × 0,96 × 100`, pl. `20 → 1920 = 19,20 Hz`).
 
 #### C) A két folyamatjelző sáv (középen)
 * **`Ciklus` sáv** (`pl. 0 / 23  •  01:18`):
@@ -131,7 +131,10 @@ A három fonalparaméter közül kettőt te adsz meg, a harmadikat a gép átté
   - A szán aktuális helyzetét mutatja a **`0`** és a **`FELSŐ HATÁR`** (`4400`) között, **mínusz előjel nélkül** *(a háttérben továbbra is negatív számmal számol a Kinco vezérlőnek, de a kijelzőn mindig tisztán, előjel nélkül jelenik meg)*.
   - Ha `0x3700` valós pozíció-kiolvasás válaszol, pontosan a motor tényleges elmozdulását követi; visszafelé tekercselésnél pedig lefelé csökken a sáv.
 
-#### D) A két óriás biztonsági gomb (alul)
+#### D) Fonalőr élő sáv és a két óriás biztonsági gomb (alul)
+* **`Fonalőr: BE / KI` & élő fonalőr sáv:** A sorba kötött fonalőr lánc (`IN2` / `0x04` bemenet) élő állapota közvetlenül látható (`KÉSZ`, `BETANULÁS...`, `AKTÍV`, `JOG szünet`, vagy piros `FONALHIBA! VÉSZSTOP`), és egy érintéssel ki-/bekapcsolható:
+  - **Automatikus újratanulás minden gyártásindításkor:** amint a két frekiváltó elérte az üzemi fordulatot, a program `800 ms` alatt megtanulja a lánc stabil nyugalmi szintjét (`0` vagy `1`). Ha indításkor instabil/szakadt a fonalőr jele, hibával vészleáll.
+  - **Okos védelem üzem közben:** `JOG` közben és `JOG`-ból visszapörgés alatt szünetel (nem tilt le lazulásra), normál futásnál viszont `150 ms`-os szűrő után **szoftveres VÉSZSTOP-pal** azonnal megállítja a motorokat és a léptetőt (**Home nélkül**), piros lámpával és hibaüzenettel.
 * **`VÉSZSTOP`** *(óriás piros gomb)*:
   - Bármikor azonnal megszakít minden folyamatot:
     1. Egy paranccsal **lekapcsolja az összes relét** (`02 05 00 FF 00 00`) — elmegy a kontaktor táp és minden lámpa.
@@ -181,11 +184,12 @@ Bármelyik mezőre kattintva közvetlenül átírhatod billentyűzetről (pl. `3
     - **`VFD-M`**: Beállítja az `ACCEL REG = 0x010A` és `DECEL REG = 0x010B` címeket (`Pr.10 / Pr.11`).
     - **`MS300 / C`**: Beállítja az `ACCEL REG = 0x010C` és `DECEL REG = 0x010D` címeket (`Pr.01-12 / 01-13`).
   - **`VFD VEZÉRLŐ`** (`0x2000`), **`FREKVENCIA REG`** (`0x2001`), **`START PARANCS`** (`0x0012`), **`STOP PARANCS`** (`0x0001`), **`HIBA REG`** (`0x2100`), **`ÁLLAPOT`** (`0x2101`), **`KIMENŐ HZ`** (`0x2103`), **`ACCEL REG`** / **`DECEL REG`**.
-* **`Waveshare I/O Bemenetek & Relék (HEX)` (`4×2` nagy gomb):**
+* **`Waveshare I/O Bemenetek & Relék (HEX)`:**
   - **`BEMENET CÍM`** (`0x0000`): Digitális bemenetek kezdőcíme.
   - **`ZÖLD START BIT`** (`0x03`): Indítás / módosítás kiküldése / ciklus jóváhagyása (`IN0=1, IN1=1`).
   - **`PIROS STOP BIT`** (`0x00`): Stop gomb (`IN0=0, IN1=0`).
   - **`JOG BIT (P+Z)`** (`0x02`): Piros + Zöld hosszú gombkombináció (`IN0=0, IN1=1`).
+  - **`FONALŐR BIT`** (`0x04`): A gombok utáni 3. bemenet (`IN2`), a sorba kötött fonalőr lánc bemeneti bitmaszkja *(a gombkezelés maszkolja ezt a bitet, így nem zavarja a Start/Stop/Jog működését)*.
   - **`PIROS LÁMPA`** (`0x0000`), **`ZÖLD LÁMPA`** (`0x0001`), **`VFD TÁP RELÉ`** (`0x0003`), **`ÖSSZES RELÉ`** (`0x00FF`).
 
 #### Aloldal 3: `Egyedi Parancs`
@@ -210,7 +214,7 @@ Szervizhez, közvetlen Modbus RTU próbaküldéshez:
   Az állapotok jelentése: `RUN` = megy, `KÉSZ` = táp alatt áll, `LEFUT` = lassul megállásig, `STOP` = áll, `HIBA` = frekiváltó hibajelzés, `--` = kikapcsolt táp / nem válaszol.
 
 #### `IN0` – `IN7` bemenet-visszajelzők
-A 8 optocsatolt bemenet állapota valós időben (zöld = bemenet aktív/zárt, sötét = nyitott).
+A 8 optocsatolt bemenet állapota valós időben (zöld = bemenet aktív/zárt, sötét = nyitott; a **`*`** jelölésű csatorna, alapból **`IN2*`**, a fonalőr bemenete).
 
 #### A 6 tesztgomb (külön-külön kipróbáláshoz)
 * **`Poz +200` (`Küldés`):** Elküldi a `+200`-as célpozíciót a léptetőnek (önmagában még nem indítja a motort, vagy előkészíti a pozíciót).
@@ -231,9 +235,9 @@ A 8 optocsatolt bemenet állapota valós időben (zöld = bemenet aktív/zárt, 
 
 ---
 
-### 4. oldal: `BEÁLLÍTÁSOK` *(3 tágas aloldalra bontva)*
+### 4. oldal: `BEÁLLÍTÁSOK` *(5 tágas aloldalra bontva)*
 
-A kényelmes, nagy gombos érintéshez minden paraméter 3 átlátható aloldalon kapott helyet:
+A kényelmes, nagy gombos érintéshez minden paraméter 5 átlátható aloldalon kapott helyet:
 
 #### Aloldal 1: `Léptető & VFD`
 
@@ -253,17 +257,19 @@ A kényelmes, nagy gombos érintéshez minden paraméter 3 átlátható aloldalo
   - **`ORSÓ FELFUTÁS` / `ORSÓ LEFUTÁS`** (`2000 ms`): Alsó orsó fel- és lefutási ideje (`0 = VFD alap`).
   - **`HENGER FELFUTÁS` / `HENGER LEFUTÁS`** (`2000 ms`): Felső henger fel- és lefutási ideje (`0 = VFD alap`).
 
-#### Aloldal 2: `Működés & Ciklus`
+#### Aloldal 2: `Ciklus & Mód`
 
-![BEÁLLÍTÁSOK Működés, Jóváhagyás és Visszafutás](docs/images/beallitasok_visszafele.png)
+![BEÁLLÍTÁSOK Ciklus és Mód](docs/images/beallitasok_visszafele.png)
 
-* **`Állapotgép, Home & Kijelző` (`3×2` kapcsoló):**
+* **`Állapotgép, Fonalőr, Home & Kijelző`:**
   - **`Léptető állapotgép (0x3200): BE / KI`:** `BE` esetén `0x3200` + `0x3700` figyelés, válaszkimaradáskor automatikus váltás `Tartalék lépésidő`-re.
   - **`VFD állapotgép (0x2101): BE / KI`:** `BE` esetén tényleges beindulás, célfordulat-elérés és `0 Hz` lefutás figyelése.
   - **`Home leállításkor: BE / KI`:** Leállításkor előbb Home-ba küldi a léptetőt.
   - **`Home mód: Pozíció 0` vs `CiA-402 (0x3500)`:** Pozíció nullázás (`0x4000=0`) vagy végálláskereső homing (`0x3500=6`).
   - **`Teljes képernyőn indul: BE / KI`:** Automatikus fullscreen indításkor.
   - **`Tartalék lépésidő: 3000 ms`:** Rákattintva szerkeszthető tartalék várakozási idő, ha `0x3200` nem válaszol.
+  - **`Fonalőr: BE / KI`:** Ki- vagy bekapcsolja a sorba kötött fonalőr figyelését *(minden indításnál újra betanulja a jó jelszintet, JOG alatt szünetel, hiba esetén Vészstoppal áll meg Home nélkül)*.
+  - **`TANÍTÁS IDŐ` (`800 ms`) & `SZŰRŐ IDŐ` (`150 ms`):** A VFD felpörgése utáni tanulási ablak hossza (`200..5000 ms`), illetve a futás közbeni zavar-/prellszűrő késleltetése (`40..3000 ms`).
 * **`Ciklus Vége, Jóváhagyás & Visszafutás`:**
   - **`Ciklus végén (felső határ elérésekor):` (3 nagy gomb):**
     1. **`Leáll (1:1)`** *(zöld)*: 1 menet után biztonságosan leáll + Home. *(Zöld lámpa nem villog.)*
@@ -280,7 +286,20 @@ A kényelmes, nagy gombos érintéshez minden paraméter 3 átlátható aloldalo
     - **`Teljesen nulláig` (`0`):** `0 ↔ 4400` teljes oda-vissza ciklus.
     - **`Középpontig` (`2200`):** Első menetben `0 → 4400`, utána folyamatosan **`2200 ↔ 4400`** között jár oda-vissza.
 
-#### Aloldal 3: `Port & RS-485`
+#### Aloldal 3: `Pozíció RPM`
+
+![BEÁLLÍTÁSOK Pozíció-alapú Orsó Fordulat](docs/images/beallitasok_zona.png)
+
+Opcionális sebességzóna, amellyel beállítható, hogy egy elért szánpozíció felett másik fordulatszámon forogjon az orsó:
+* **`Felső pozíció fordulat: BE / KI`:** Egy gombnyomással ki- vagy bekapcsolható (alapból `KI`).
+* **`VÁLTÁS POZÍCIÓ` (`1000 poz`):** Ettől a pozíciótól felfelé egészen a `FELSŐ HATÁR`-ig (`1000 – 4400` között) lép érvénybe a másik fordulatszám.
+* **`ZÓNA ORSÓ RPM` (`2000 RPM`):** Az alsó gyűjtőorsó fordulatszáma a felső zónában; a **felső adagoló hengert az aktív sodratszám alapján automatikusan újraszámolja** hozzá a program (`pl. 2000 / 120 = 16 yarn/meter`).
+* **Működés felfelé és visszafelé:**
+  - `0 → 999 poz` között az alap fordulattal (`pl. 2500 RPM`) megy; **`1000 poz` elérésekor átvált `2000 RPM`-re** egészen `4400`-ig.
+  - **Visszafelé módban fordított logikával:** fentről (`4400`) indulva `1000`-ig továbbra is `2000 RPM`-mel halad (mert még a `[1000..4400]` zónában van), majd **`1000` alá visszaérve visszavált az alap `2500 RPM`-re** (`0`-ig).
+  - Menet közbeni `Zöld gomb`-os módosítás és `JOG` elengedés után is azonnal az aktuális pozíciónak megfelelő zónafordulatra áll be.
+
+#### Aloldal 4: `Port & RS-485`
 
 ![BEÁLLÍTÁSOK Soros Port és RS-485](docs/images/beallitasok_port.png)
 
@@ -289,6 +308,32 @@ A kényelmes, nagy gombos érintéshez minden paraméter 3 átlátható aloldalo
 * **`Kinco CDAB (Low First)` vs `ABCD Big-Endian`:** 32-bites léptető pozícióregiszterek szó-sorrendje (`Kinco FM`-hez `CDAB` az alapértelmezett).
 * **`RS-485 SZÜNET` (`15 ms`) / `VÁLASZ TIMEOUT` (`120 ms`) / `ÚJRAPRÓBÁLKOZÁS` (`2 db`):** Ütközésvédelem és automatikus csomag-újraküldés beállításai.
 * **`Modbus Kódok & Kereső megnyitása →`:** Egygombos átugrás a `MODBUS` fülre.
+
+#### Aloldal 5: `Frissítés` *(GitHub Auto-Update, Patch Notes & Visszaállás)*
+
+![BEÁLLÍTÁSOK GitHub Frissítés és Verzió-előzmények](docs/images/beallitasok_frissites.png)
+
+![Patch Notes és Visszaállási Megerősítő Ablak](docs/images/frissites_modal.png)
+
+* **`GITHUB REPO`:** Add meg a publikus GitHub repódat `tulajdonos/repo` formában (vagy illeszd be a teljes `https://github.com/...` címet **`Ctrl+V`**-vel; az `twister_config.ini`-ben a `github_repo=` sor tárolja).
+* **`Indításkor ellenőriz: BE / KI`:** Bekapcsolva minden indításkor csendben ellenőrzi a legújabb GitHub Release-t, és ha van frissebb verzió (álló gép mellett), megjeleníti az **Újdonságok / Patch Notes** ablakot.
+* **Kiadás ellenőrzése és biztonság:**
+  - A **`build-exe.bat`** minden fordításkor elkészíti a **`dist\TwisterControl.exe`** mellett a **`dist\version.json`** fájlt is pontos verzióval és **SHA-256** ellenőrzőösszeggel *(ha létezik `release_notes.txt`, annak szövegét is beleteszi; különben a GitHub Release leírását jeleníti meg Patch Notes-ként)*.
+  - Csere előtt ellenőrzi az SHA-256-ot és a Windows PE fejlécet, majd **futó gép mellett letiltja a cserét**.
+* **Helyi verziómentés (`.bak` + `versions\` mappa) és visszaállás:**
+  - Minden frissítés vagy visszaállás előtt a jelenlegi futó EXE automatikusan elmentődik **`TwisterControl.bak.exe`** néven és a **`versions\`** mappába is (verziószámmal, dátummal, SHA-256-tal és Patch Notes-szal).
+  - A **`Mentett korábbi verziók`** listában bármelyik korábbi verzió melletti **`Visszaállás`** gombbal álló gépnél biztonságosan visszaválthatsz rá.
+  - A **`twister_config.ini`** és a **`debug.txt`** minden frissítésnél és visszaállásnál érintetlen marad.
+
+* **Szinkron VFD-léptetőmotor lefutás (`DecelerateVfdsWithSyncedStepper`):**
+  - Minden leállásnál (normál ciklusvég, Stop, **VÉSZSTOP**, Fonalőr vagy VFD/léptető hiba) a két frekiváltó azonnal megkapja a `Stop` (`0x2000 = 0x0001`) parancsot, miközben a léptetőmotor az aktív menetirány mentén tovább mozog mindaddig, amíg **mindkét Delta VFD el nem éri a `0 Hz / Stop` állapotot** (`0x2101` + `0x2103`).
+  - Amint a frekiváltók megálltak, a program azonnal helyben megállítja és tiltja a léptetőmotort (`0x010F` Halt + `0x000F` Disable), majd kiolvassa a valós `0x3700` pozíciót.
+* **Menet közbeni leállás folytatása (`twister_resume.ini`) és felugró ablakos reteszelés:**
+  - Ha a futás **menet közben** megszakad (Stop, **VÉSZSTOP**, Fonalőr vagy egyéb hiba), a gép **nem végez Home-ot**, hanem elmenti a pontos `0x3700` pozíciót és menetirányt a `twister_resume.ini` fájlba. Normál ciklusvég esetén (amikor Home is lefut) a mentés törlődik.
+  - Mentett megszakadt állapotnál a fejlécben **`FOLYTATHATÓ`** gomb jelenik meg, és a következő **Zöld gombos** vagy UI indításnál felugrik a **`MEGSZAKADT FUTÁS`** választóablak (`ÚJRAKEZDÉS` – előbb Home 0-ra, `FOLYTATÁS` – pontosan ugyanott és abba az irányba tovább, `MÉGSE (ESC)`).
+  - **Indítási retesz felugró ablaknál:** Amíg bármelyik felugró ablak (`MEGSZAKADT FUTÁS`, `PC KI`, `Frissítés / Visszaállás`) nyitva van, sem a fizikai **Zöld Start / JOG** gomb, sem az UI indítás/léptetés nem indíthatja el a gépet.
+
+![Megszakadt futás választóablak](docs/images/resume_modal.png)
 
 ---
 
