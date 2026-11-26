@@ -28,8 +28,18 @@ Nincs felugró képernyő-billentyűzet — közvetlenül a rendes billentyűzet
 3. **Mentéshez két lehetőséged van:**
    - Nyomd meg az **`Enter`** billentyűt, **VAGY**
    - **Kattints bárhová máshová a képernyőn** (egy másik dobozra, másik fülre vagy az üres háttérre).
-   - Mindkét esetben a program azonnal elmenti az új értéket a fájlba, újraszámolja a függő értékeket és kilép a szerkesztésből.
+   - Mindkét esetben **álló gépnél** a program azonnal elmenti az új értéket a fájlba, újraszámolja a függő értékeket és kilép a szerkesztésből.
+   - **Futó program közben** ugyanúgy átírhatsz bármilyen értéket és opciót — ilyenkor a felső sávban sárga **`ZÖLD = KÜLDÉS`** jelzés jelenik meg, és a gép biztonságosan megvárja a fizikai **Zöld gomb** megnyomását (amely RS-485 ütközés nélkül küldi ki és menti el az összes módosítást a futó gépre).
 4. **Mégse (`ESC`):** Ha írás közben **`ESC`**-et nyomsz, elveti a félbehagyott gépelést, és visszaáll a korábbi érték.
+
+### Egyszerűsített billentyűzetes navigáció (`Numpad 8 / 2 / 4 / 6 + Enter`)
+Érintőképernyő és egér mellett **mindig működik** a gyors irányított navigáció (akkor is, ha a NumLock be vagy ki van kapcsolva, vagy sima nyílbillentyűket használsz):
+- **`Numpad 8` (`↑`):** Lépés felfelé a következő gombra / mezőre / fülre.
+- **`Numpad 2` (`↓`):** Lépés lefelé.
+- **`Numpad 4` (`←`):** Lépés balra a sorban.
+- **`Numpad 6` (`→`):** Lépés jobbra a sorban.
+- **`Enter`:** Megnyomja a fehér-kék kerettel kijelölt gombot, átváltja a fület, vagy megnyitja a kijelölt paraméter szerkesztését.
+- **Érték beírása közben nincs ütközés:** amint **`Enter`**-rel (vagy érintéssel) beléptél egy számmezőbe, a **`Numpad 8 / 2 / 4 / 6`** normál számjegyként gépelődik be, az **`Enter`** elmenti és kilép, utána pedig rögtön újra navigálhatsz vele! *(A `PC KI` ablak megnyitásakor az alapértelmezett fókusz biztonságból mindig a `MÉGSE` gombon áll.)*
 
 ![Érték átírása közvetlenül billentyűzetről](docs/images/szerkesztes.png)
 
@@ -40,8 +50,9 @@ Nincs felugró képernyő-billentyűzet — közvetlenül a rendes billentyűzet
 | Elem | Mit mutat / Mit csinál ha rákattintasz? |
 | :--- | :--- |
 | **`TWISTER`** | A program neve. |
-| **`COM3`** *(port gomb)* | Zöld, ha a soros port sikeresen csatlakozva van; piros, ha nem érhető el. Rákattintva rögtön a **`BEÁLLÍTÁSOK`** oldalra ugrik, ahol portot választhatsz. |
-| **Állapotjelző doboz** | A gép pillanatnyi állapota:<br>• **`OFFLINE`** (piros): nincs nyitott soros port<br>• **`KÉSZENLÉT`** (sárga): áll a gép, várja az indítást<br>• **`INDÍTÁS...`** (sárga): relék kapcsolása, frekiváltók bebootolása és felpörgése<br>• **`ÜZEMEL`** (zöld): forognak a motorok és megy a léptetőmotor-ciklus<br>• **`LEÁLLÍTÁS`** (piros): motorok leállítása és léptető Home-ba küldése<br>• **`HIBA`** (piros): hiba történt (pl. port vagy meghajtó hiba — részletek a `DIAGNOSZTIKA` naplóban) |
+| **`COM3`** *(port gomb)* | Zöld, ha a soros port sikeresen csatlakozva van; piros, ha nem érhető el. Rákattintva rögtön a **`BEÁLLÍTÁSOK → Port & RS-485`** aloldalra ugrik, ahol portot választhatsz. |
+| **`ZÖLD = KÜLDÉS`** *(sárga jelző)* | Csak akkor jelenik meg, ha **futó program közben** módosítottál valamit a képernyőn. A fizikai **Zöld gomb** megnyomásáig várakozik a változtatások biztonságos kiküldésével. |
+| **Állapotjelző doboz** | A gép pillanatnyi állapota:<br>• **`OFFLINE`** (piros): nincs nyitott soros port<br>• **`KÉSZENLÉT`** (sárga): áll a gép, várja az indítást<br>• **`INDÍTÁS...`** (sárga): relék ellenőrzése/kapcsolása, frekiváltók bebootolása és felpörgése<br>• **`ÜZEMEL`** (zöld) / **`JÓVÁHAGYÁS?`** (sárga) / **`JÓVÁHAGYVA`** (zöld) / **`VÉGÉN LEÁLL`** (rózsaszín): forognak a motorok és megy a léptetőmotor-ciklus; **`Jóváhagyással`** módban a program vége előtti beállított időnél (`VILLOGÁS ELŐTTE`, alap `5 perc`) **`JÓVÁHAGYÁS?`** látható és villog a zöld lámpa<br>• **`JOG MÓD`** (kék): Piros + Zöld hosszú nyomva tartásával aktív lassú kézi/ellenőrző járatás<br>• **`LEÁLLÍTÁS`** (piros): motorok leállítása és léptető Home-ba küldése<br>• **`HIBA`** (piros): hiba történt (pl. port vagy meghajtó hiba — részletek a `DIAGNOSZTIKA` naplóban) |
 | **`ESC` / `FULL` gomb** | Vált teljes képernyős és ablakos mód között (ugyanazt csinálja, mint az `ESC` billentyű). |
 | **4 fő oldalválasztó fül** | **`VEZÉRLÉS`** • **`MODBUS`** • **`DIAGNOSZTIKA`** • **`BEÁLLÍTÁSOK`** — rákattintva azonnal oldalt vált (ha épp írtál egy mezőbe, előtte elmenti). |
 
@@ -51,13 +62,32 @@ Nincs felugró képernyő-billentyűzet — közvetlenül a rendes billentyűzet
 
 A program folyamatosan figyeli a gép **`0x02`** I/O modulján lévő fizikai Start és Stop gombokat:
 
-### Zöld gomb (`Start`) megnyomása:
-1. Kikapcsolja a piros jelzőlámpát (`0x0000`), felkapcsolja a zöld jelzőlámpát (`0x0001`).
-2. Áramot ad a frekiváltók főkontaktorára (`0x0003`).
-3. **Megvárja, míg a két Delta frekiváltó feléled** és hibamentes készenlétet jelez (`0x2100/0x2101`).
-4. Beírja a beállított felfutási és lefutási időket (ha `> 0 ms`), elküldi a kiszámolt célfrekvenciákat (`0x2001`), majd kiadja az indítás parancsot (`0x2000 = 0x0012`).
-5. **Megvárja, míg mindkét motor ténylegesen felpörög** a célfrekvenciára (`0x2103`).
-6. Csak ezután indítja el a Kinco léptetőmotor ciklusát (`0`-tól `4400` felé).
+### Zöld gomb (`Start / Módosítás küldés`) megnyomása:
+* **Ha áll a gép (`KÉSZENLÉT`):**
+  1. Kikapcsolja a piros jelzőlámpát (`0x0000`), felkapcsolja a zöld jelzőlámpát (`0x0001`).
+  2. **Ellenőrzi (`FC 0x01`)**, hogy a frekiváltók főkontaktora (`0x0003`) be van-e már kapcsolva: ha még ki van kapcsolva, bekapcsolja és megvárja a frekiváltók felállását; ha már áram alatt van, azonnal tovább lép.
+  3. **Ellenőrzi a két Delta frekiváltó hibamentes készenlétét** (`0x2100/0x2101`).
+  4. Beírja a beállított felfutási és lefutási időket (ha `> 0 ms`), elküldi a kiszámolt célfrekvenciákat (`0x2001`), majd kiadja az indítás parancsot (`0x2000 = 0x0012`).
+  5. **Megvárja, míg mindkét motor ténylegesen felpörög** a célfrekvenciára (`0x2103`).
+  6. Csak ezután indítja el a Kinco léptetőmotor ciklusát (`0`-tól `4400` felé).
+* **Ha fut a program (`ÜZEMEL` / `JÓVÁHAGYÁS?` villogás):**
+  - **Menet közbeni változtatások kiküldése:** ha menet közben átírtál fordulatszámot, sodratot, felfutást, léptetőt vagy bármely beállítást, a Zöld gomb egy rövid megnyomása elmenti és RS-485 ütközés nélkül rögtön kiküldi a változtatásokat a futó gépre.
+  - **Ciklus folytatásának jóváhagyása / elutasítása (`Jóváhagyással` mód):**
+    - Ha a **`BEÁLLÍTÁSOK → Működés & Ciklus`** aloldalon a `Ciklus végén:` beállítás **`Jóváhagyással`** állásban van, akkor amikor már kevesebb mint a **`VILLOGÁS ELŐTTE`** mezőben megadott perc *(alap: `5 perc`)* van hátra a menetből, a **zöld lámpa villogni kezd** (`JÓVÁHAGYÁS?`). *(Más `Ciklus végén` módokban — `Leáll (1:1)` és `Újraindul` — nem villog.)*
+    - **Következő ciklus jóváhagyása:** villogás közben a fizikai **Zöld gomb** megnyomásával hagyod jóvá, hogy a menet végén automatikusan elinduljon a következő ciklus (`JÓVÁHAGYVA`). Ezzel egyidőben a villogás megáll, a zöld lámpa folyamatosan világít, és az esetleges módosításokat is kiküldi.
+    - **Következő ciklus elutasítása (`-` billentyű):** ha a billentyűzeten megnyomod a **`-`** *(mínusz)* gombot *(kizárólag akkor, ha nem vagy szövegdoboz szerkesztésében és nincs nyitott megerősítő ablak)*, a gép elutasítja az újraindulást (`VÉGÉN LEÁLL`), a villogás megáll (folyamatosan zöld), majd az aktuális menet végén biztonságosan leáll.
+    - **Ha nem érkezik válasz a menet végéig:** ha megállásig villog a zöld és nem kaptál vissza visszajelzést, a gép biztonságból szintén leáll és Home-ba áll.
+
+### Piros + Zöld gomb egyszerre hosszan nyomva (`JOG mód`, `0x02`):
+A két fizikai nyomógomb együttes, kb. 0,6 másodperces nyomva tartásával aktiválható (beépített védelemmel, hogy a nyomógombok pár tizedmásodperces eltéréssel történő megnyomása vagy elengedése véletlenül se állítsa le a gépet):
+* **Amikor FUT a program:**
+  - **Mindkét jelzőlámpa (`Piros` + `Zöld`) egyszerre világít.**
+  - Az alsó gyűjtőorsó belassul a **`JOG ORSÓ`** beállítás szerinti fordulatra (alap: `300 RPM`), a felső adagoló hengert pedig az aktuális **sodratszámmal arányosan** automatikusan hozzá számolja és lelassítja.
+  - A léptetőmotor sebessége visszakapcsol az alap sebességre (`0x4A00` gyári/alap értékére).
+  - **Amint elengeded** a gombokat, a piros lámpa kialszik, minden motor arányosan **visszapörög** az üzemi fordulatra és a program pontosan onnan folytatódik tovább!
+* **Amikor NEM megy program (`KÉSZENLÉT`):**
+  - **Mindkét lámpa (`Piros` + `Zöld`) egyszerre világít.**
+  - Ellenőrzi (`FC 0x01`), be van-e kapcsolva a VFD tápkontaktor (`0x0003` — ha szükséges, bekapcsolja), majd **csakis az alsó gyűjtőorsó** forog a `JOG ORSÓ` (`300 RPM`) fordulaton, amíg a két gombot tartod. Elengedésre megáll, és visszaáll készenlétbe (piros lámpa).
 
 ### Piros gomb (`Stop`) megnyomása:
 1. Azonnal kiadja a leállítás parancsot mindkét Delta frekiváltónak (`0x2000 = 0x0001`).
@@ -114,60 +144,59 @@ A három fonalparaméter közül kettőt te adsz meg, a harmadikat a gép átté
 
 ---
 
-### 2. oldal: `MODBUS` *(Eszközök, címek és kézi parancsteszt)*
+### 2. oldal: `MODBUS` *(3 tágas aloldalra bontva)*
 
-![MODBUS beállítások és egyedi küldés](docs/images/modbus.png)
+Itt van összegyűjtve a gép összes Modbus-kódja **HEX** (hexadecimális) formában. A jobb olvashatóság és könnyű érintés érdekében 3 aloldalra van osztva:
 
-Itt van összegyűjtve a gép összes Modbus-kódja **HEX** (hexadecimális) formában. Bármelyik mezőre kattintva átírhatod (pl. `4000` vagy `0x4000` is működik, `Enter` vagy mellékattintás menti).
+#### Aloldal 1: `Motorok & Kinco`
 
-#### 1. kártya: `Modbus Slave Címek (Busz ID • HEX)`
-* **`LÉPTETŐ ID`** (alap: `0x01`): A Kinco FM léptetőmotor-hajtás buszcíme.
-* **`I/O MODUL ID`** (alap: `0x02`): A Waveshare 8 csatornás gomb/relé modul buszcíme.
-* **`ORSÓ VFD ID`** (alap: `0x03`): Az alsó gyűjtőorsót hajtó Delta frekiváltó címe.
-* **`HENGER VFD ID`** (alap: `0x04`): A felső adagoló hengert hajtó Delta frekiváltó címe.
-* **`Gyári Modbus alap` gomb** *(jobb felső narancs gomb)*: Egy kattintással visszaállítja az összes Modbus címet és kódot az eredeti alapértékre.
+![MODBUS Motorok és Kinco regiszterek](docs/images/modbus.png)
 
-#### 2. kártya: `Kinco FM Léptetőmotor Regiszterek`
-* **`POZÍCIÓ (32B)`** (`0x4000`): Ide írja a célpozíciót (32 bites szám).
-* **`AKTUÁLIS POZ`** (`0x3700`): Innen olvassa ki a motor tényleges, valós idejű pozícióját mozgás közben.
-* **`VEZÉRLŐ REG`** (`0x3100`): Vezérlőregiszter (indítás / megállítás).
-* **`ÁLLAPOT REG`** (`0x3200`): Statusword (ebből tudja a program, hogy a motor még mozog, célba ért, vagy hibát jelez).
-* **`ÜZEMMÓD`** (`0x3500`): Pozíció mód (`1`) és Homing mód (`6`) közti váltás.
-* **`SEBESSÉG`** (`0x4A00`): A munka közbeni mozgási sebesség regisztere.
-* **`HOME SEB.`** (`0x5010`): A Home-ra (végállás-keresésre) állított sebesség regisztere (CiA-402 módban).
-* **`ENABLE`** (`0x001F`): Parancsszó, ami elindítja a beírt pozícióra a mozgást.
-* **`STOP / DIS`** (`0x000F`): Parancsszó, ami leállítja/nyugtázza a léptetés indítóját.
+Bármelyik mezőre kattintva közvetlenül átírhatod billentyűzetről (pl. `3100` vagy `0x3100` is működik, `Enter` vagy mezőn kívüli koppintás menti).
 
-#### 3. kártya: `Delta VFD (Orsó & Henger)`
-* **Gyorsválasztó gombok a fejlécben** *(kiválasztott = piros keret)*:
-  - **`VFD-E / EL`**: Beállítja az `ACCEL REG = 0x0109` és `DECEL REG = 0x010A` címeket (`Pr.01.09 / 01.10`).
-  - **`VFD-M`**: Beállítja az `ACCEL REG = 0x010A` és `DECEL REG = 0x010B` címeket (`Pr.10 / Pr.11`).
-  - **`MS300 / C`**: Beállítja az `ACCEL REG = 0x010C` és `DECEL REG = 0x010D` címeket (`Pr.01-12 / 01-13`).
-  *(Válaszd ki azt, amelyik széria a gépedben van, hogy a fel- és lefutás a jó helyre íródjon!)*
-* **`VFD VEZÉRLŐ`** (`0x2000`): Start/Stop vezérlőregiszter.
-* **`FREKVENCIA REG`** (`0x2001`): Ide írja a kiszámolt célfrekvenciát (`0,01 Hz`-es léptékben).
-* **`START PARANCS`** (`0x0012`): Előre forgás indítása.
-* **`STOP PARANCS`** (`0x0001`): Lassított megállítás parancs.
-* **`HIBA REG`** (`0x2100`): Hibakód olvasása (`0` = hibamentes).
-* **`ÁLLAPOT`** (`0x2101`): Üzemállapot olvasása (áll, lassul, készenlét, üzemel).
-* **`KIMENŐ HZ`** (`0x2103`): A motorra kiadott tényleges kimeneti frekvencia olvasása.
-* **`ACCEL REG`** / **`DECEL REG`**: A felfutási és lefutási idő paraméter-regisztere (`0,1 mp` egységben).
+* **`Modbus Slave Címek (HEX)`:**
+  - **`LÉPTETŐ ID`** (alap: `0x01`): A Kinco FM léptetőmotor-hajtás buszcíme.
+  - **`I/O MODUL ID`** (alap: `0x02`): A Waveshare 8 csatornás gomb/relé modul buszcíme.
+  - **`ORSÓ VFD ID`** (alap: `0x03`): Az alsó gyűjtőorsót hajtó Delta frekiváltó címe.
+  - **`HENGER VFD ID`** (alap: `0x04`): A felső adagoló hengert hajtó Delta frekiváltó címe.
+  - **`Gyári Modbus alap` gomb** *(narancs gomb)*: Visszaállítja az összes Modbus címet és kódot az eredeti alapértékre.
+* **`Kinco FM Léptetőmotor Regiszterek (HEX)` (`3×3` nagy gomb):**
+  - **`POZÍCIÓ (32B)`** (`0x4000`): Célpozíció (32 bites szám).
+  - **`AKTUÁLIS POZ`** (`0x3700`): Valós idejű aktuális pozíció kiolvasása.
+  - **`VEZÉRLŐ REG`** (`0x3100`): Vezérlőregiszter (indítás / megállítás).
+  - **`ÁLLAPOT REG`** (`0x3200`): Statusword (célba érés, mozgás, hiba).
+  - **`ÜZEMMÓD`** (`0x3500`): Pozíció mód (`1`) és Homing mód (`6`) közti váltás.
+  - **`SEBESSÉG`** (`0x4A00`): A munka közbeni mozgási sebesség regisztere.
+  - **`HOME SEB.`** (`0x5010`): Homing keresési sebesség (CiA-402 módban).
+  - **`ENABLE`** (`0x001F`): Parancsszó a mozgás indításához.
+  - **`STOP / DIS`** (`0x000F`): Parancsszó a léptető megállításához.
 
-#### 4. kártya: `Waveshare I/O Modul Bemenetek & Relé Tekercsek`
-* **`BEMENET CÍM`** (`0x0000`): A digitális bemenetek (nyomógombok) kezdőcíme.
-* **`ZÖLD START BIT`** (`0x03`): Ez a bemeneti érték indítja el a gépet (`IN0 + IN1` aktív).
-* **`PIROS STOP BIT`** (`0x00`): Ez a bemeneti érték jelenti a Stop gombot (vagy relé bontását).
-* **`PIROS LÁMPA`** (`0x0000`): Piros jelzőlámpa relé kimenete.
-* **`ZÖLD LÁMPA`** (`0x0001`): Zöld jelzőlámpa relé kimenete.
-* **`VFD TÁP RELÉ`** (`0x0003`): A két frekiváltó tápkontaktorát kapcsoló relé.
-* **`ÖSSZES RELÉ`** (`0x00FF`): Az összes kimeneti relé együttes lekapcsolása (Vészstophoz).
+#### Aloldal 2: `Delta VFD & I/O`
 
-#### 5. kártya: `Egyedi Modbus RTU Parancs Küldése`
-Szervizhez, próbaküldéshez:
-* **`HEX BÁJTOK` mező:** Kattints bele és írj be szóközökkel (vagy kötőjellel) tagolt bájtokat, pl. `01 06 31 00 00 1F`.
-* **`Auto CRC` / `Kézi CRC` gomb:** Ha `BE`, automatikusan hozzászámolja a 2 bájtos Modbus CRC-16 ellenőrző összeget küldéskor; ha `KI`, pontosan azt küldi ki, amit beírtál.
-* **`KÜLDÉS` (`RTU TX`) gomb:** Kiküldi a parancsot a soros portra, a **`Válasz:`** sorban pedig azonnal megjelenik a nyers válasz vagy hibaüzenet.
-* **4 minta-gomb alul:** **`Léptető En`**, **`Léptető St`**, **`Orsó VFD St`**, **`Relék KI`** — egy kattintással beírják a megfelelő parancsot a felső mezőbe (az aktuális Slave ID-kkel!). Innen a `KÜLDÉS`-sel rögtön tesztelheted.
+![MODBUS Delta VFD és Waveshare I/O](docs/images/modbus_vfd.png)
+
+* **`Delta VFD Regiszterek (Orsó & Henger • HEX)`:**
+  - **Gyorsválasztó gombok a fejléc alatt** *(kiválasztott = piros)*:
+    - **`VFD-E / EL`**: Beállítja az `ACCEL REG = 0x0109` és `DECEL REG = 0x010A` címeket (`Pr.01.09 / 01.10`).
+    - **`VFD-M`**: Beállítja az `ACCEL REG = 0x010A` és `DECEL REG = 0x010B` címeket (`Pr.10 / Pr.11`).
+    - **`MS300 / C`**: Beállítja az `ACCEL REG = 0x010C` és `DECEL REG = 0x010D` címeket (`Pr.01-12 / 01-13`).
+  - **`VFD VEZÉRLŐ`** (`0x2000`), **`FREKVENCIA REG`** (`0x2001`), **`START PARANCS`** (`0x0012`), **`STOP PARANCS`** (`0x0001`), **`HIBA REG`** (`0x2100`), **`ÁLLAPOT`** (`0x2101`), **`KIMENŐ HZ`** (`0x2103`), **`ACCEL REG`** / **`DECEL REG`**.
+* **`Waveshare I/O Bemenetek & Relék (HEX)` (`4×2` nagy gomb):**
+  - **`BEMENET CÍM`** (`0x0000`): Digitális bemenetek kezdőcíme.
+  - **`ZÖLD START BIT`** (`0x03`): Indítás / módosítás kiküldése / ciklus jóváhagyása (`IN0=1, IN1=1`).
+  - **`PIROS STOP BIT`** (`0x00`): Stop gomb (`IN0=0, IN1=0`).
+  - **`JOG BIT (P+Z)`** (`0x02`): Piros + Zöld hosszú gombkombináció (`IN0=0, IN1=1`).
+  - **`PIROS LÁMPA`** (`0x0000`), **`ZÖLD LÁMPA`** (`0x0001`), **`VFD TÁP RELÉ`** (`0x0003`), **`ÖSSZES RELÉ`** (`0x00FF`).
+
+#### Aloldal 3: `Egyedi Parancs`
+
+![MODBUS Egyedi RTU parancs küldése](docs/images/modbus_egyedi.png)
+
+Szervizhez, közvetlen Modbus RTU próbaküldéshez:
+* **`HEX BÁJTOK` mező:** Kattints bele és írj be szóközökkel vagy kötőjellel tagolt bájtokat, pl. `01 06 31 00 00 1F`.
+* **`Auto CRC-16: BE` / `Kézi CRC: KI`:** Automatikusan hozzáteszi a 2 CRC-16 ellenőrző bájtot vagy nyersen küldi ki.
+* **`KÜLDÉS (RTU TX)` gomb:** Azonnal kiküldi a keretet, alatta pedig a **`Modbus válasz:`** dobozban látszik a nyers válasz vagy hiba.
+* **`Gyors Minta Parancsok` (`2×2`):** `Léptető Enable`, `Léptető Állapot`, `Orsó VFD Állapot`, `Összes Relé KI`.
 
 ---
 
@@ -202,74 +231,64 @@ A 8 optocsatolt bemenet állapota valós időben (zöld = bemenet aktív/zárt, 
 
 ---
 
-### 4. oldal: `BEÁLLÍTÁSOK` *(Minden paraméter és működési opció)*
+### 4. oldal: `BEÁLLÍTÁSOK` *(3 tágas aloldalra bontva)*
 
-![BEÁLLÍTÁSOK oldal](docs/images/beallitasok.png)
+A kényelmes, nagy gombos érintéshez minden paraméter 3 átlátható aloldalon kapott helyet:
 
-#### Felső kártya: `Soros Port & RS-485 Ütközésvédelem`
-* **`Portok friss.` gomb:** Újra beolvassa a Windows-ban jelenleg csatlakoztatott COM portokat.
-* **`Újracsatl.` gomb:** Lezárja és újranyitja a kiválasztott soros portot.
-* **COM port gombok (`COM3`, `COM1`, ...):** Kattintással kiválasztható a használt RS-485 átalakító portja (`Aktív` = zöld, ha él a kapcsolat).
-* **`Léptető (0x4000) sorrend:` `Kinco CDAB` vs `Big-Endian ABCD`:**
-  - A 32-bites pozíciószám két regiszterének sorrendje. **Kinco FM**-hez a **`Kinco CDAB` (Low-Word First)** a gyári beállítás (ez megegyezik az eredeti C# program sorrendjével).
-* **RS-485 busz védelmi mezők (ütközések ellen):**
-  - **`RS-485 SZÜNET` (`15 ms`):** Ennyi kötelező csendet tart két Modbus üzenet között, hogy az egyik eszköz adása garantáltan befejeződjön, mielőtt a következő elkezdődik.
-  - **`VÁLASZ TIMEOUT` (`120 ms`):** Legfeljebb ennyi ideig vár egy eszköz válaszára, mielőtt továbbmegy vagy újrapróbálja.
-  - **`ÚJRAPRÓBÁLKOZÁS` (`2 db`):** Ha zavar miatt kimarad vagy hibás CRC-vel érkezik vissza egy válasz, ennyiszer küldi újra automatikusan.
+#### Aloldal 1: `Léptető & VFD`
 
-#### Középső kártya: `Léptető, Delta VFD & Állapotgép beállítások`
-* **`Gyári alapértékek` gomb** *(jobb felső narancs gomb)*: Visszaállítja az alábbi összes gépbeállítást a biztos, bevált alapokra (a `MODBUS` oldal címeit békén hagyja!).
+![BEÁLLÍTÁSOK Léptető és VFD paraméterek](docs/images/beallitasok.png)
 
-##### Paraméterdobozok:
-1. sor:
-* **`LÉPTETŐ LÉPÉS` (`400 offset`):** Minden ciklusban ennyit lép a motor a cél (`4400` felső határ) felé. Mindig nagyobbnak kell lennie, mint a `FEL-LÉPÉS (+)`!
-* **`LÉPÉS SEBESSÉG` (`0 = alap`):** A léptetőmotor munkasebessége (`0x4A00` regiszter). Ha `0`, nem írja felül a hajtásban tárolt belső sebességet (ugyanúgy, mint a régi programban). Ha `> 0`, elküldi az új sebességet.
-* **`FELSŐ HATÁR` (`4400 poz`):** Meddig menjen fel a léptetőmotor (`0`-tól `4400`-ig; háttérben `-4400`-ként kezeli).
+* **`Gyári alapértékek` gomb** *(jobb felső narancs gomb)*: Visszaállítja az összes gépbeállítást a biztos alapokra *(a `MODBUS` oldal címeit békén hagyja)*.
+* **`Léptetőmotor & JOG Beállítások` (`4×2` nagy csempe):**
+  - **`LÉPTETŐ LÉPÉS`** (`400 offset`): Ennyit lép a motor minden ciklusban a cél felé. Nagyobbnak kell lennie, mint a `FEL-LÉPÉS (+)`!
+  - **`FEL-LÉPÉS (+)`** (`200 +`): Ennyit mozdul vissza minden lépés elején. A nettó haladás = `LÉPTETŐ LÉPÉS - FEL-LÉPÉS (+)` (`200`, így `4400 / 200 + 1 = 23` lépés).
+  - **`FELSŐ HATÁR`** (`4400 poz`): Meddig menjen fel a szán (`0`-tól `4400`-ig).
+  - **`JOG ORSÓ`** (`300 RPM`): Piros + Zöld hosszú nyomva tartásakor az alsó gyűjtőorsó cél fordulatszáma *(futás közben ehhez számolja arányosan a felső hengert is)*.
+  - **`LÉPÉS SEBESSÉG`** (`0 = alap`): Munkasebesség (`0x4A00`; `0` = hajtás alapértéke).
+  - **`HOME SEBESSÉG`** (`0 = alap`): Home visszaállási sebesség (`0` = alapérték).
+  - **`MAX LÉPÉSIDŐ`** (`15000 ms`) *(vagy `FIX VÁRAKOZÁS` ki-kapcsolt állapotgépnél)*: Egyetlen lépés max. várakozási ideje.
+  - **`HOME TARTALÉK`** (`6000 ms`): Home mozgás max./tartalék ideje.
+* **`Delta VFD Fel- és Lefutási Idők (ms)` (`2×2` nagy csempe):**
+  - **`ORSÓ FELFUTÁS` / `ORSÓ LEFUTÁS`** (`2000 ms`): Alsó orsó fel- és lefutási ideje (`0 = VFD alap`).
+  - **`HENGER FELFUTÁS` / `HENGER LEFUTÁS`** (`2000 ms`): Felső henger fel- és lefutási ideje (`0 = VFD alap`).
 
-2. sor:
-* **`FEL-LÉPÉS (+)` (`200 +`):** Ennyit mozdul vissza ellentétes irányba minden lépés elején. A nettó haladás ciklusonként = `LÉPTETŐ LÉPÉS - FEL-LÉPÉS (+)` (tehát `400 - 200 = 200`, így lesz `4400 / 200 + 1 = 23` lépés).
-* **`HOME SEBESSÉG` (`0 = alap`):** Külön sebesség beállítás a Home-ra (visszaállásra). `0` esetén nem módosítja a sebességet; `> 0` esetén `CiA-402` módban a `0x5010` homing regiszterbe, `Pozíció 0` módban a `0x4A00`-ba írja a visszaállás idejére.
-* **`MAX LÉPÉSIDŐ` (`15000 ms`)** *(vagy `FIX VÁRAKOZÁS` ha az állapotgép ki van kapcsolva)*: Legfeljebb ennyit vár egyetlen lépés befejezésére állapotgép módban, mielőtt továbbmegy.
-* **`HOME TARTALÉK` (`6000 ms`):** Max/tartalék várakozási idő a Home mozgás befejezésére.
+#### Aloldal 2: `Működés & Ciklus`
 
-3. sor (Delta Frekiváltók fel- és lefutása):
-* **`ORSÓ FELFUTÁS` (`2000 ms`):** Mennyi idő alatt pörögjön fel az alsó gyűjtőorsó `0`-ról a célfordulatra (Delta `0,1 mp` egységbe átszámolva, pl. `2000 ms = 2,0 mp`; ha `0`, marad a frekiváltón beállított idő).
-* **`ORSÓ LEFUTÁS` (`2000 ms`):** Mennyi idő alatt álljon meg az alsó gyűjtőorsó (`0 = VFD alap`).
-* **`HENGER FELFUTÁS` (`2000 ms`):** Mennyi idő alatt pörögjön fel a felső adagoló henger (`0 = VFD alap`).
-* **`HENGER LEFUTÁS` (`2000 ms`):** Mennyi idő alatt álljon meg a felső adagoló henger (`0 = VFD alap`).
+![BEÁLLÍTÁSOK Működés, Jóváhagyás és Visszafutás](docs/images/beallitasok_visszafele.png)
 
-##### Fő kapcsolók:
-* **`Léptető állapotgép (0x3200): BE / KI`:**
-  - **`BE` (ajánlott):** Folyamatosan kérdezi a Kinco meghajtótól a `0x3200` (célba érés) és `0x3700` (tényleges pozíció) regisztert, és amint odaért a motor, azonnal folytatja (nincs felesleges várakozás). Ha nem kap választ a meghajtótól, automatikusan átvált a `Tartalék lépésidő`-re.
-  - **`KI`:** Fixen kivárja a beállított időzítést (`FIX VÁRAKOZÁS`).
-* **`VFD állapotgép (0x2101): BE / KI`:**
-  - **`BE` (ajánlott):** Tápbekapcsolás után megvárja a frekiváltók tényleges beindulását, Start után ellenőrzi, hogy elérték-e a célfordulatot, leállításkor pedig megvárja, míg `0 Hz`-re lelassulnak.
-  - **`KI`:** Fix időzítésekkel vár a kontaktor és a Start után.
-* **`Home leállításkor: BE / KI`:** Ha `BE`, a piros Stop gomb (vagy a ciklus végi automatikus leállás) előbb visszaküldi a léptetőt Home-ba, és csak utána tiltja le.
-* **`Home mód: Pozíció 0` vs `CiA-402 (0x3500)`:**
-  - **`Pozíció 0` (biztonságos alapértelmezett):** Egyszerűen visszavezényli a motort a `0` pozícióra (`0x4000 = 0`).
-  - **`CiA-402 (0x3500)`:** Átkapcsolja a Kinco drivert gyári Homing módba (`0x3500 = 6`), megkeresteti a végálláskapcsolót (`0x5010` sebességgel), majd visszavált Pozíció módba (`1`). *(Csak akkor válaszd ezt, ha a hajtásban a végálláskapcsoló és Homing Method fel van tanítva!)*
-* **`Teljes képernyőn indul: BE / KI`:** Eldönti, hogy a program indításakor egyből teljes képernyős legyen-e.
-* **`Tartalék lépésidő: 3000 ms`:** Rákattintva közvetlenül átírható. Akkor használja a léptetővezérlő tartalékként, ha a `0x3200` állapotjelzés nem érkezne meg a hajtásról.
-* **`Modbus Kódok & Kereső →` gomb:** Gyors átugrás a `MODBUS` oldalra.
+* **`Állapotgép, Home & Kijelző` (`3×2` kapcsoló):**
+  - **`Léptető állapotgép (0x3200): BE / KI`:** `BE` esetén `0x3200` + `0x3700` figyelés, válaszkimaradáskor automatikus váltás `Tartalék lépésidő`-re.
+  - **`VFD állapotgép (0x2101): BE / KI`:** `BE` esetén tényleges beindulás, célfordulat-elérés és `0 Hz` lefutás figyelése.
+  - **`Home leállításkor: BE / KI`:** Leállításkor előbb Home-ba küldi a léptetőt.
+  - **`Home mód: Pozíció 0` vs `CiA-402 (0x3500)`:** Pozíció nullázás (`0x4000=0`) vagy végálláskereső homing (`0x3500=6`).
+  - **`Teljes képernyőn indul: BE / KI`:** Automatikus fullscreen indításkor.
+  - **`Tartalék lépésidő: 3000 ms`:** Rákattintva szerkeszthető tartalék várakozási idő, ha `0x3200` nem válaszol.
+* **`Ciklus Vége, Jóváhagyás & Visszafutás`:**
+  - **`Ciklus végén (felső határ elérésekor):` (3 nagy gomb):**
+    1. **`Leáll (1:1)`** *(zöld)*: 1 menet után biztonságosan leáll + Home. *(Zöld lámpa nem villog.)*
+    2. **`Újraindul`** *(sárga)*: Automatikusan, megállás nélkül folytatja a következő ciklust a lenti mód szerint, amíg le nem állítod. *(Zöld lámpa nem villog.)*
+    3. **`Jóváhagyással`** *(kék)*: Menet közben megkérdezi a gépkezelőt! Az utolsó **`VILLOGÁS ELŐTTE`** percben **`JÓVÁHAGYÁS?`** jelzéssel **villogni kezd a zöld lámpa**:
+       - **Zöld gomb (`Start / Jóváhagyás`):** jóváhagyja a következő ciklus indulását (`JÓVÁHAGYVA`, folyamatosan zöldre vált).
+       - **`-` billentyű** *(szerkesztésen és felugró ablakon kívül)*: elutasítja az újraindulást (`VÉGÉN LEÁLL`, nem villog tovább, és a menet végén leáll).
+       - **Nincs válasz a menet végéig:** ha megállásig villog és nincs jelzés, a gép szintén leáll.
+  - **`VILLOGÁS ELŐTTE` (`5 perc`):** Állítható küszöbidő (`1..120 perc`), hogy a program vége előtt hány perccel kezdjen el villogni a zöld lámpa `Jóváhagyással` módban.
+  - **`Újraindulás módja:`** *(`Újraindul` és `Jóváhagyással` módban is aktív)*:
+    - **`Nulláról indul`:** Eléri a `4400`-at, majd visszatér `0`-ra és elölről kezdi.
+    - **`Visszafelé indul`:** Nem ugrik vissza `0`-ra, hanem fentről lefelé bontva visszafelé tekercsel.
+  - **`Visszafutás célja:`** *(`Visszafelé indul` alatt aktív)*:
+    - **`Teljesen nulláig` (`0`):** `0 ↔ 4400` teljes oda-vissza ciklus.
+    - **`Középpontig` (`2200`):** Első menetben `0 → 4400`, utána folyamatosan **`2200 ↔ 4400`** között jár oda-vissza.
 
-##### `Ciklus végén` és a több algombos visszafutás-választó:
-* **`Ciklus végén: Leáll (1:1)` / `Újraindul`:**
-  - **`Leáll (1:1)`** *(zöld)*: Ha a szán eléri a `4400`-as határt, leállítja a gépet, Home-ba küldi a motort és visszavált készenlétbe. *(Az alatta lévő két algombsor ilyenkor inaktív.)*
-  - **`Újraindul`** *(sárga)*: Nem áll le a `4400`-nál, hanem folyamatosan tovább dolgozik a beállított mód szerint, amíg meg nem nyomod a Stop-ot vagy Vészstop-ot! Ekkor aktiválódik alatta a **2 soros algomb-választó**:
-    1. **`Újraindulás módja:`**
-       - **`Nulláról indul`:** Eléri a `4400`-at, majd rögtön visszatér és újra `0`-tól `4400`-ig fut végig.
-       - **`Visszafelé indul`:** Amikor elérte a `4400`-at, **nem ugrik vissza**, hanem szépen lépésről lépésre visszafelé tekercsel lefelé!
-    2. **`Visszafutás célja:`** *(akkor aktív, ha `Visszafelé indul` van kiválasztva)*:
-       - **`Teljesen nulláig (0)`:** `0 → 4400 → 0 → 4400 ...` folyamatos teljes oda-vissza ciklus.
-       - **`Középpontig (2200)`:** Első menetben felmegy `0 → 4400`-ig, utána visszafelé **csak a felső határ feléig (`2200`-ig)** megy vissza, és innentől **`2200 ↔ 4400`** között dolgozik oda-vissza folyamatosan!
+#### Aloldal 3: `Port & RS-485`
 
-![Ciklus végén algombos visszafutás választó](docs/images/beallitasok_visszafele.png)
+![BEÁLLÍTÁSOK Soros Port és RS-485](docs/images/beallitasok_port.png)
 
----
-
-#### Alsó kártya: `Képletek & Aktív Busz Paraméterek`
-Csak tájékoztató áttekintő doboz: egyetlen pillantással látszanak benne az aktuális `MODBUS` fülről származó főbb címek (`Orsó`, `Henger`, `Kinco Poz/Akt/HomeSeb`, `Delta VFD Acc/Dec`), valamint az aktív COM port.
+* **`Portok frissítése` / `Újracsatlakozás most`:** Windows COM port lista újraolvasása és busz újracsatlakoztatása.
+* **`COM3 / COM1 / ...` (`2×2` nagy portgomb):** Aktív RS-485 adapter kiválasztása (`zöld = Aktív`).
+* **`Kinco CDAB (Low First)` vs `ABCD Big-Endian`:** 32-bites léptető pozícióregiszterek szó-sorrendje (`Kinco FM`-hez `CDAB` az alapértelmezett).
+* **`RS-485 SZÜNET` (`15 ms`) / `VÁLASZ TIMEOUT` (`120 ms`) / `ÚJRAPRÓBÁLKOZÁS` (`2 db`):** Ütközésvédelem és automatikus csomag-újraküldés beállításai.
+* **`Modbus Kódok & Kereső megnyitása →`:** Egygombos átugrás a `MODBUS` fülre.
 
 ---
 
